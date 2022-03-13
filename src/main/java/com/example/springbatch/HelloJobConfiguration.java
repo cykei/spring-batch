@@ -46,6 +46,7 @@ public class HelloJobConfiguration {
                 .start(helloStep1())
                 .validator(validator())
                 .incrementer(new DailyJobTimestamper())
+                .listener(new JobLoggerListener())
                 //.next(helloStep2())
                 .build();
     }
