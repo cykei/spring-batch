@@ -35,8 +35,8 @@ public class HelloJobConfiguration {
                     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                         System.out.println("==============================");
                         System.out.println(" >> hello spring batch!");
+                        System.out.println("name: " + chunkContext.getStepContext().getJobParameters().get("name"));
                         System.out.println("==============================");
-
                         return RepeatStatus.FINISHED; // 이렇게 리턴하거나 null을 리턴해야 한번 실행하면 끝난다.
                     }
                 }).build();
