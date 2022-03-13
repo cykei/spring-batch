@@ -1,5 +1,7 @@
 package com.example.springbatch;
 
+import com.example.springbatch.incrementer.DailyJobTimestamper;
+import com.example.springbatch.listener.JobLoggerListener;
 import com.example.springbatch.validator.ParameterValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -32,7 +34,7 @@ public class HelloJobConfiguration {
         CompositeJobParametersValidator validator = new CompositeJobParametersValidator();
         DefaultJobParametersValidator defaultJobParametersValidator = new DefaultJobParametersValidator();
         defaultJobParametersValidator.setRequiredKeys(new String[] {"filename"});
-        defaultJobParametersValidator.setOptionalKeys(new String[] {"name"});
+        defaultJobParametersValidator.setOptionalKeys(new String[] {"name", "currentDate"});
         defaultJobParametersValidator.afterPropertiesSet();
         validator.setValidators(Arrays.asList(new ParameterValidator(), defaultJobParametersValidator));
         return validator;
@@ -43,7 +45,7 @@ public class HelloJobConfiguration {
         return jobBuilderFactory.get("helloJob")
                 .start(helloStep1())
                 .validator(validator())
-                .incrementer(new RunIdIncrementer())
+                .incrementer(new DailyJobTimestamper())
                 //.next(helloStep2())
                 .build();
     }
